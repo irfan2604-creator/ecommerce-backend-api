@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Razorpay Test Payment</title>
+</head>
+<body>
+
+    <h2>Test Razorpay Payment</h2>
+
+    <button id="pay-button">Pay ₹3995</button>
+
+    <h3>Payment Response:</h3>
+    <pre id="result"></pre>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        const options = {
+            key: "test id",
+            amount: 399500,
+            currency: "INR",
+            name: "My E-commerce Store",
+            description: "Test Order Payment",
+
+            order_id: "order_Tu98VquGNDMvcf",
+
+            handler: function (response) {
+                document.getElementById("result").textContent =
+                    JSON.stringify(response, null, 4);
+            },
+
+            theme: {
+                color: "#3399cc"
+            }
+        };
+
+        const razorpay = new Razorpay(options);
+
+        document.getElementById("pay-button").onclick = function () {
+            razorpay.open();
+        };
+    </script>
+
+</body>
+</html>
