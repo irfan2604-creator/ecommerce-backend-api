@@ -1,3 +1,5 @@
+from itertools import product
+
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly,IsAuthenticated
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -18,7 +20,11 @@ class ProductListCreateView(generics.ListCreateAPIView):
     filter_backends = [SearchFilter,OrderingFilter]
     search_fields = ['name','description'] 
     ordering_fields = ['price','name','created_at']
-
+    
+    def perform_create(self, serializer):
+        product = serializer.save()
+        product.generate_qr_code()
+        product.save(update_fields=['qr_code'])
 
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
